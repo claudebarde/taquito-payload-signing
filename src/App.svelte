@@ -48,6 +48,15 @@
     width: 50%;
   }
 
+  #logo {
+    display: flex;
+    justify-content: center;
+  }
+
+  #logo img {
+    width: 50%;
+  }
+
   #payload-input {
     width: 100%;
     height: 150px;
@@ -71,6 +80,7 @@
 <main>
   <div class="main-block">
     <h1>Taquito Payload Signing</h1>
+    <div id="logo"><img src="built-with-taquito.png" alt="taquito" /></div>
     <p>Please insert below the payload you want to sign:</p>
     <textarea name="payload-input" id="payload-input" bind:value={payload} />
     <p>Sign with:</p>
