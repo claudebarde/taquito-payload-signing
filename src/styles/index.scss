@@ -1,0 +1,66 @@
+html,
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  color: #333;
+  margin: 0;
+  padding: 8px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+a {
+  color: rgb(0, 100, 200);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:visited {
+    color: rgb(0, 80, 160);
+  }
+}
+
+.buttons {
+  button {
+    margin: 0px 10px;
+    cursor: pointer;
+    color: #494949 !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #ffffff;
+    padding: 10px;
+    border: 2px solid #494949 !important;
+    display: inline-block;
+    border-radius: 6px;
+    transition: all 0.4s ease 0s;
+    outline: none;
+  }
+
+  button#tezbridge:hover {
+    color: #ffffff !important;
+    background: #cbd5e0;
+    border-color: #cbd5e0 !important;
+    transition: all 0.4s ease 0s;
+  }
+
+  button#beacon:hover {
+    color: #ffffff !important;
+    background: #63b3ed;
+    border-color: #63b3ed !important;
+    transition: all 0.4s ease 0s;
+  }
+
+  button#thanos:hover {
+    color: #ffffff !important;
+    background: #f6ad55;
+    border-color: #f6ad55 !important;
+    transition: all 0.4s ease 0s;
+  }
+}
