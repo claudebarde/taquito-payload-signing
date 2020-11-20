@@ -3,10 +3,19 @@
   import { TezosToolkit } from "@taquito/taquito";
   import { TezBridgeSigner } from "@taquito/tezbridge-signer";
   import { BeaconWallet } from "@taquito/beacon-wallet";
+  import { ThanosWallet } from "@thanos-wallet/dapp";
 
   let Tezos, tezbridgeSigner, beaconWallet;
   let payload = "Taquito is awesome!";
   let signedResult = { tezbridge: "", beacon: "", thanos: "" };
+
+  const stringToHex = (str: string) => {
+    var result = "";
+    for (var i = 0; i < str.length; i++) {
+      result += str.charCodeAt(i).toString(16);
+    }
+    return "0x" + result;
+  };
 
   const initTezbridgeSigner = async () => {
     signedResult.tezbridge = "";
@@ -26,8 +35,22 @@
     Tezos.setWalletProvider(beaconWallet.client);
 
     signedResult.beacon = await beaconWallet.client.requestSignPayload({
-      payload
+      payload,
+      sourceAddress: await beaconWallet.getPKH()
     });
+  };
+
+  const initThanos = async () => {
+    if (ThanosWallet.isAvailable()) {
+      signedResult.thanos = "";
+      const wallet = new ThanosWallet("Taquito Payload Signing");
+      await wallet.connect("carthagenet");
+      Tezos.setWalletProvider(wallet);
+
+      signedResult.thanos = await wallet.sign(stringToHex(payload));
+    } else {
+      console.error("Thanos is not installed");
+    }
   };
 
   onMount(() => {
@@ -95,20 +118,26 @@
     <div class="buttons">
       <button id="tezbridge" on:click={initTezbridgeSigner}>TezBridge</button>
       <button id="beacon" on:click={initBeaconSigner}>Beacon</button>
-      <button id="thanos">Thanos</button>
+      <button id="thanos" on:click={initThanos}>Thanos</button>
     </div>
     <div id="results">
       {#if signedResult.tezbridge}
         <pre
           class="signed-result">
-      {`Tezbridge result: ${JSON.stringify(signedResult.tezbridge, null, 2)}`}
-    </pre>
+          {`Tezbridge result: ${JSON.stringify(signedResult.tezbridge, null, 2)}`}
+        </pre>
       {/if}
       {#if signedResult.beacon}
         <pre
           class="signed-result">
-      {`Beacon result: ${JSON.stringify(signedResult.beacon, null, 2)}`}
-    </pre>
+          {`Beacon result: ${JSON.stringify(signedResult.beacon, null, 2)}`}
+        </pre>
+      {/if}
+      {#if signedResult.thanos}
+        <pre
+          class="signed-result">
+          {`Thanos result: ${JSON.stringify(signedResult.thanos, null, 2)}`}
+        </pre>
       {/if}
     </div>
   </div>
